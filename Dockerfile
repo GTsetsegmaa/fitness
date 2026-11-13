@@ -1,27 +1,24 @@
-# Multi-stage build: install deps -> build -> tiny runtime image.
+# 1. Start from an image that already has Linux + Node 24 installed
+FROM node:24-alpine
 
-FROM node:24-alpine AS deps
+# 2. Make an /app folder inside the image and cd into it
 WORKDIR /app
+
+# 3. Copy ONLY the dependency list first...
 COPY package.json package-lock.json ./
+
+# 4. ... and install. Docker caches this step, so it only re-runs
+#    when package.json changes
 RUN npm ci
 
-FROM node:24-alpine AS build
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# 5. Now copy the rest of your code
 COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
+
+# 6. Build the produciton version of the site
 RUN npm run build
 
-FROM node:24-alpine AS runtime
-WORKDIR /app
-ENV NODE_ENV=production \
-    NEXT_TELEMETRY_DISABLED=1 \
-    PORT=3000 \
-    HOSTNAME=0.0.0.0
-# Standalone output contains server.js plus only the node_modules it needs.
-COPY --from=build --chown=node:node /app/.next/standalone ./
-COPY --from=build --chown=node:node /app/.next/static ./.next/static
-COPY --from=build --chown=node:node /app/public ./public
-USER node
+# 7. Document the app listens on port 3000
 EXPOSE 3000
-CMD ["node", "server.js"]
+
+# 8. The command that runs when the container starts
+CMD ["npm", "start"]

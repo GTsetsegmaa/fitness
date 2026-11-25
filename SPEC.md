@@ -32,7 +32,7 @@ The repo is empty (just a README). This is a personal workout tracker for one us
 - `routine_exercises`: routine, exercise, order, target sets/reps
 - `sessions`: routine (nullable), started/finished time, notes, `source` (`manual | strava`), `external_id`
 - `sets`: session, exercise, order, reps + weight (strength) or duration + distance (cardio), RPE
-- `body_metrics`: date, bodyweight, body fat, measurements (JSON)
+- `body_metrics`: date, bodyweight, measurements (JSON)
 - **Next workout** = the routine with the next `position` after your last finished session's routine, wrapping back to the start.
 - **PRs** are computed by queries: heaviest weight at each rep count, estimated 1RM (Epley formula), fastest pace for each distance.
 

@@ -37,7 +37,7 @@ The repo is empty (just a README). This is a personal workout tracker for one us
 - **PRs** are computed by queries: heaviest weight at each rep count, estimated 1RM (Epley formula), fastest pace for each distance.
 
 ## Milestones (each one ends with something you can open on your phone)
-0. **Walking skeleton (day 1–2):** scaffold Next.js, push to GitHub, deploy "Hello" to the VPS over HTTPS with your domain. *Dopamine: it's live.*
+0. **Walking skeleton (day 1–2):** scaffold Next.js, push to GitHub, deploy "Hello" to the VPS over HTTPS with your domain.
 1. **Log a workout (week 1):** login, an exercise list, start a session, add sets, finish. History list.
 2. **Rotation + overload (week 2):** build routines in order, a "Next up" home screen, last-time numbers shown inline.
 3. **Progress (week 3):** PR detection with a 🎉 badge, per-exercise charts, body-metrics log and chart.

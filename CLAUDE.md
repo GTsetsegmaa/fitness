@@ -12,6 +12,10 @@ portfolio project. What we're building: `SPEC.md`. How we build it: `docs/workfl
 - Planned: PostgreSQL + Drizzle ORM, Better Auth, Recharts, shadcn/ui
 
 ## Commands
+- First time: `cp .env.example .env` and set a password (letters and digits only)
+- `docker compose up -d db`: start Postgres (host port **5433**, so it doesn't clash with a system Postgres)
+- `npm run db:migrate`: apply migrations in `drizzle/` to the database in `DATABASE_URL`
+- `npm run db:generate`: create a migration after editing `src/db/schema.ts`. Read the SQL before committing.
 - `npm run dev`: dev server at http://localhost:3000
 - `npm run check`: lint + typecheck + tests. **Must pass before any change is called done.**
 - `npm run test:watch`: rerun tests on save
@@ -24,8 +28,16 @@ portfolio project. What we're building: `SPEC.md`. How we build it: `docs/workfl
 - **Tests:** every feature ships with tests. Put them next to the code as `*.test.ts(x)`. Query the
   UI the way a user would (`getByRole`, labels, visible text), never by CSS class.
 - **Imports:** use the `@/` alias for anything under `src/`.
-- **Database (from Milestone 1):** every schema change is a Drizzle migration committed to git.
-  Never edit the database by hand.
+- **Database:** `src/db/schema.ts` is the source of truth, and `docs/data-model.md` explains it
+  (update both together). Every schema change is a Drizzle migration committed in `drizzle/`.
+  Reference data (like the starter exercises) goes in a custom migration. Never edit the database
+  by hand.
+- **Data access:** queries live in `src/db/queries/` and take `db` as a parameter, so tests can
+  pass a PGlite database (`// @vitest-environment node`, real migrations applied). Pages get the
+  real one from `getDb()` (`src/db/index.ts`).
+- **Pages that read the database:** put the query in an async component that calls
+  `await connection()`, wrapped in `<Suspense>` (Cache Components is on). Keep the rendering in a
+  synchronous component that takes props, so React Testing Library can test it.
 - **Mobile first:** design for a phone at the gym. Large tap targets, few taps per logged set.
 
 ## Workflow

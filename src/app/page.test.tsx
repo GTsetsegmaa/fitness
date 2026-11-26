@@ -14,3 +14,9 @@ test("start workout button is disabled until logging exists", () => {
   const button = screen.getByRole("button", { name: /start workout/i });
   expect((button as HTMLButtonElement).disabled).toBe(true);
 });
+
+test("links to the exercise list", () => {
+  render(<Home />);
+  const link = screen.getByRole("link", { name: /browse exercises/i });
+  expect(link.getAttribute("href")).toBe("/exercises");
+});

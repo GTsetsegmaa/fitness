@@ -1,8 +1,10 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-6 bg-zinc-950 px-4 text-center text-zinc-50">
       <p className="text-sm font-medium uppercase tracking-widest text-emerald-400">
-        Milestone 0
+        Milestone 1
       </p>
       <h1 className="text-4xl font-bold tracking-tight">Fitness</h1>
       <p className="max-w-xs text-lg text-zinc-400">
@@ -15,6 +17,12 @@ export default function Home() {
       >
         Start workout (coming soon)
       </button>
+      <Link
+        href="/exercises"
+        className="flex h-14 w-full max-w-xs items-center justify-center rounded-2xl border border-zinc-700 text-lg font-semibold hover:bg-zinc-900"
+      >
+        Browse exercises
+      </Link>
     </main>
   );
 }

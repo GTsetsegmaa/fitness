@@ -16,6 +16,7 @@ The repo is empty (just a README). This is a personal workout tracker for one us
 | Integrations | Strava import for cardio (later phase) |
 | Hosting | Develop locally, then a ~$5/month VPS with Docker |
 | Language | Industry standard / fastest: **TypeScript end to end** |
+| Units | US user: the app shows **lb, miles, min/mile** everywhere. The database stores metric (see Data model) |
 
 ## Stack
 - **Next.js (App Router) + TypeScript**: one codebase for UI and API (server actions/route handlers). It's the industry default and the fastest path.
@@ -27,6 +28,8 @@ The repo is empty (just a README). This is a personal workout tracker for one us
 - **Later:** PWA + IndexedDB (Dexie) outbox for offline; the Strava API (OAuth + webhooks) for import.
 
 ## Data model (store kg / meters / seconds; convert units only for display)
+Values are stored metric at full precision. They're converted to lb / mi / min-per-mile only at the edges (input and display, via `src/lib/units.ts`) and rounded for display (0.1 lb, 0.01 mi). Strava already sends meters and seconds, and keeping one unit in the database means PRs and charts never mix units.
+
 - `exercises`: name, kind (`strength | cardio`)
 - `routines`: name, `position` (its place in the rotation)
 - `routine_exercises`: routine, exercise, order, target sets/reps
@@ -43,7 +46,7 @@ The repo is empty (just a README). This is a personal workout tracker for one us
 3. **Progress (week 3):** PR detection with a 🎉 badge, per-exercise charts, body-metrics log and chart.
 4. **Strava import:** OAuth connect, backfill past activities, webhook for new ones, mapped to cardio sessions.
 5. **Offline-first PWA:** installable app, local outbox, sync when back online, conflict handling.
-6. **Grow:** open sign-ups, unit preferences, export to CSV.
+6. **Grow:** open sign-ups, a per-user unit preference (metric option), export to CSV.
 
 ## Out of scope for now
 Bodyweight/class tracking (yoga, HIIT), native mobile apps, a calendar/scheduling view, social features, Apple Health/Garmin.

@@ -48,12 +48,10 @@ git switch -c feat/<slice-name>      # one branch per slice
 
 ### 3. Verify
 ```bash
-npm run lint                         # code style and common mistakes
-npx tsc --noEmit                     # type check
-npm test                             # added in the guardrails step
+npm run check                        # lint + typecheck + tests, all in one
 docker compose up -d --build         # does the real container still work?
 ```
-- CI (GitHub Actions) runs the same checks on every push.
+- CI (GitHub Actions) runs the same checks, plus `next build` and `docker build`, on every push and PR.
 - Open the app on my phone and use the feature the way I would at the gym.
 - If anything fails, go back to **Build**. Never merge something red.
 
